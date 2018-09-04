@@ -88,10 +88,17 @@ def calculate_tfidf(feature_matrix):
     :param feature_matrix: tf feature matrix
     :return: tfidf feature matrix
     """
+    for j in range(0, feature_matrix.shape[1]):
+        term_df = np.count_nonzero(feature_matrix[:, j])
+        for i in range(0, feature_matrix.shape[0]):
+            temp_eq = np.log((1 + feature_matrix.shape[0]) / (1 + term_df)) + 1
+            feature_matrix[i, j] = feature_matrix[i, j] * temp_eq
+    return feature_matrix
 
 
 list_of_texts = read_files()
 list_of_unigrams = tranform_to_text_to_unigrams(list_of_texts=read_files())
 processed_unigrams = process_unigrams(list_of_unigrams)
 list_of_bags = create_bow(processed_unigrams)
-build_feature_matrix(list_of_bags)
+feature_matrix = build_feature_matrix(list_of_bags)
+print(np.count_nonzero(calculate_tfidf(feature_matrix)))
