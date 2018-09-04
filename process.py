@@ -1,6 +1,7 @@
 from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
 from collections import Counter
+import math
 import numpy as np
 
 
@@ -91,7 +92,7 @@ def calculate_tfidf(feature_matrix):
     for j in range(0, feature_matrix.shape[1]):
         term_df = np.count_nonzero(feature_matrix[:, j])
         for i in range(0, feature_matrix.shape[0]):
-            temp_eq = np.log((1 + feature_matrix.shape[0]) / (1 + term_df)) + 1
+            temp_eq = math.log((1 + feature_matrix.shape[0]) / (1 + term_df)) + 1
             feature_matrix[i, j] = feature_matrix[i, j] * temp_eq
     return feature_matrix
 
