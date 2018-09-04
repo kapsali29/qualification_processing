@@ -1,5 +1,6 @@
 from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
+from collections import Counter
 
 
 def read_files():
@@ -46,6 +47,17 @@ def process_unigrams(list_of_unigrams):
     return processed_unigrams
 
 
+def create_bow(processed_unigrams):
+    """
+    Using tha function you are able to create bag of words for each text.
+
+    :param processed_unigrams: list of filtered unigrams
+    :return: list of bag of words
+    """
+    list_of_bags = [Counter(unigram) for unigram in processed_unigrams]
+    return list_of_bags
+
+
 list_of_texts = read_files()
 list_of_unigrams = tranform_to_text_to_unigrams(list_of_texts=read_files())
 processed_unigrams = process_unigrams(list_of_unigrams)
@@ -53,3 +65,7 @@ print(list_of_unigrams[78])
 print(" ")
 print(" ")
 print(processed_unigrams[78])
+print(" ")
+print(" ")
+list_of_bags = create_bow(processed_unigrams)
+print(list_of_bags[78])
