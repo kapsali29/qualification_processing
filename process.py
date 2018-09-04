@@ -1,6 +1,7 @@
 from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
 from collections import Counter
+import numpy as np
 
 
 def read_files():
@@ -58,14 +59,39 @@ def create_bow(processed_unigrams):
     return list_of_bags
 
 
+def build_feature_matrix(list_of_bags):
+    """
+    Using that function you are able to build the feature matrix.
+
+    :param list_of_bags: list of text bows
+    :return: feature matrix
+    """
+    features_list = []
+    for bag in list_of_bags:
+        features_list += list(bag.keys())
+    features = list(set(features_list))
+    feature_matrix = np.zeros((len(list_of_bags), len(features)))
+    for i in range(0, feature_matrix.shape[0]):
+        current_bow = list_of_bags[i]
+        for j in range(0, feature_matrix.shape[1]):
+            if features[j] in current_bow.keys():
+                feature_matrix[i, j] = current_bow[features[j]]
+            else:
+                feature_matrix[i, j] = 0
+    return feature_matrix
+
+
+def calculate_tfidf(feature_matrix):
+    """
+    Using that function we are able to calculate the tfidf feature matrix.
+
+    :param feature_matrix: tf feature matrix
+    :return: tfidf feature matrix
+    """
+
+
 list_of_texts = read_files()
 list_of_unigrams = tranform_to_text_to_unigrams(list_of_texts=read_files())
 processed_unigrams = process_unigrams(list_of_unigrams)
-print(list_of_unigrams[78])
-print(" ")
-print(" ")
-print(processed_unigrams[78])
-print(" ")
-print(" ")
 list_of_bags = create_bow(processed_unigrams)
-print(list_of_bags[78])
+build_feature_matrix(list_of_bags)
