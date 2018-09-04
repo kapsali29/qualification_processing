@@ -1,4 +1,5 @@
 from nltk.tokenize import RegexpTokenizer
+from nltk.corpus import stopwords
 
 
 def read_files():
@@ -30,6 +31,25 @@ def tranform_to_text_to_unigrams(list_of_texts):
     return list_of_unigrams
 
 
+def process_unigrams(list_of_unigrams):
+    """
+    Using that function you are able to remove english stopwords and make lowers all words.
+
+    :param list_of_unigrams: list of unigrams
+    :return: list of processed unigrams
+    """
+    processed_unigrams = []
+    english_stopwords = set(stopwords.words('english'))
+    for text_unigrams in list_of_unigrams:
+        processed_unigrams.append(
+            [word.lower() for word in text_unigrams if word not in english_stopwords and not word.isdigit()])
+    return processed_unigrams
+
+
 list_of_texts = read_files()
 list_of_unigrams = tranform_to_text_to_unigrams(list_of_texts=read_files())
+processed_unigrams = process_unigrams(list_of_unigrams)
 print(list_of_unigrams[78])
+print(" ")
+print(" ")
+print(processed_unigrams[78])
